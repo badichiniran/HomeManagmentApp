@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ניהול משק בית</title>
+    <style type="text/css">
+
+        #BGPIC {
+            width: 320px;
+            height: 480px;
+        }
+
+
+        #footer_div {
+            text-align: center;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova-2.5.0.js"></script>
+
+
+    <script type="text/javascript" charset="utf-8">
+
+        function back() {
+            window.location.replace('mainPage.htm', 'pop', true, true);
+        }
+        function changePage(param) {
+            window.localStorage.setItem("param", param);
+        }
+        function Submit() {
+            amount = $('#amount').val();
+            comment = $('#comment').val();
+            Category_id = window.localStorage.getItem("param"); 
+            PurchesDate = $('#PurchesDate').val();
+            paymentMethod = $("input:radio:checked").val();
+            UserId = window.localStorage.getItem("UserId");
+
+            Load();
+            $.ajax({
+                type: "GET",
+                url: "AddPurches.aspx",
+                data:
+                     { 'amount': amount, 'comment': comment, 'Category_id': Category_id, 'PurchesDate': PurchesDate, 'paymentMethod': paymentMethod, 'UserId': UserId },
+                contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                success: function (res) {
+                    UnLoad();
+                    alert("בוצע");
+                    window.location.replace('#mainPage', 'flip', true, true);
+                }, // success
+                error: function (error) {
+                    alert("error-AddPurches.aspx");
+                    UnLoad();
+                } //error
+            });   // ajax
+
+        }
+
+        function Load() {
+            $.mobile.loading('show', {
+                text: "אנא המתן",
+                theme: 'b',
+                textVisible: true
+            });
+        }
+        function UnLoad() {
+            $.mobile.loading('hide');
+        } // Unload
+
+    </script>
+
+</head>
+<body>
+    <!-------------------------------------------------- /ExpencesList ------------------------------------------------------------>
+    <div data-role="page" data-theme="e" id="ExpencesList">
+
+        <div data-role="header" data-theme="e" data-position="fixed"
+            style="text-align: center"><h1>
+                רשימת מוצרים</h1>
+        </div>
+
+        <div data-role="content" id="contentId" data-theme="e" style="text-align: center;">
+
+            <div data-role="collapsible"  data-content-theme="d" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-inset="true">
+                <h2>הוצאות משתנות</h2>
+                <ul data-role="listview">
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(1)">מזון ומכולת</a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(2)">אוכל בחוץ</a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(3)">ריהוט</a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(4)">דלק</a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(5)">אחר</a></li>
+                </ul>
+            </div>
+            <!-- /collapsible -->
+            <div data-role="collapsible"  data-content-theme="d" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-inset="true">
+                <h2>רפואה ובריאות</h2>
+                <ul data-role="listview">
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(21)">ביקורי רופא</a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(22)">תרופות</a></li>
+                </ul>
+            </div>
+            <!-- /collapsible -->
+            <div data-role="collapsible" data-content-theme="d" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-inset="true">
+                <h2>מתנות</h2>
+                <ul data-role="listview">
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(41)">אירועים</a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(42)">מתנות- אחר</a></li>
+                </ul>
+            </div>
+            <!-- /collapsible -->
+            <div data-role="collapsible" data-content-theme="d" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-inset="true">
+                <h2>בעלי חיים</h2>
+                <ul data-role="listview">
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(61)">אוכל </a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(62)">וטרינר</a></li>
+                </ul>
+            </div>
+            <!-- /collapsible -->
+            <div data-role="collapsible"  data-content-theme="d" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-inset="true">
+                <h2>תרבות פנאי ובילוי</h2>
+                <ul data-role="listview">
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(81)">חופשות בארץ ובחול</a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(82)">מסעדות/פאבים</a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(83)">סרטים והצגות</a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(84)">קאנטרי/חד"כ/בריכה</a></li>
+                </ul>
+            </div>
+            <!-- /collapsible -->
+            <div data-role="collapsible" data-content-theme="d" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-inset="true">
+                <h2>הוצאות קבועות</h2>
+                <ul data-role="listview">
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(101)">אינטרנט </a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(102)">ועד בית</a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(103)">שכר דירה</a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(104)">מים</a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(105)">גז</a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(106)">חשמל</a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(107)">ארנונה</a></li>
+                </ul>
+            </div>
+            <!-- /collapsible -->
+        </div>
+
+        <!-- /content -->
+
+        <div data-role="footer" style="text-align: left" data-position="fixed">
+            <a href="#" data-role="button" data-icon="back" data-rel="back" onclick="back()">חזרה</a>
+        </div>
+    </div>
+
+    <!-------------------------------------------------- /ExpencesDetailsPage ------------------------------------------------------------>
+    <div data-role="page" data-theme="e" id="ExpencesDetailsPage" style="height: 100%;">
+        <div data-role="header" dir="rtl" style="height: 50%; text-align: center;">
+            <p style="font-size: 10pt">
+                אנא הזן את הפרטים הבאים:
+            </p>
+        </div>
+        <div data-role="content" data-theme="e" style="height: 50%; text-align: right" dir="rtl">
+            <div data-role="controlgroup">
+
+                <span style="font-size: 15pt">סכום:</span>
+                <input type="number" name="number" id="amount" value="" />
+                <span style="font-size: 15pt">תאריך:</span>
+                <input name="mydate" id="PurchesDate" type="date" data-role="datebox" data-options='{"mode": "calbox", "hideInput": "true", "centerHoriz": "true", "closeCallback":"onCLoseMyDate();"}' />
+            </div>
+             <span style="font-size: 15pt">דרך תשלום:</span>
+            <div data-role="fieldcontain" align="center" style="border-bottom-style: none">
+
+                <fieldset data-role="controlgroup" data-type="vertical" data-mini="false">
+                    <input type="radio" name="radio-view" id="radio1" value="מזומן" checked="checked" />
+                    <label for="radio1" >
+                        מזומן</label>
+                    <input type="radio" name="radio-view" id="radio2" value="אשראי" />
+                    <label for="radio2">
+                        אשראי</label>
+
+                </fieldset>
+            </div>
+            <div data-role="controlgroup">
+                <span style="font-size: 15pt">הערה:</span>
+                <input type="text" name="comment" id="comment" value="" />
+
+            </div>
+
+            <a href="#ExpencesDetailsPage" data-role="button" onclick="Submit()">אישור</a>
+        </div>
+
+        <div data-role="footer" style="text-align: left" data-position="fixed">
+            <a href="#" data-role="button" data-icon="back" data-rel="back">חזרה</a>
+        </div>
+    </div>
+
+</body>
+</html>
+

@@ -1,0 +1,319 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <title>ניהול משק בית</title>
+    <style type="text/css">
+        img
+        {
+            height: 90%;
+            margin-top: 0.2em;
+        }
+        #BGPIC
+        {
+            width: 100%;
+            height: 100%;
+        }
+        #footer_div
+        {
+            text-align: center;
+        }
+        
+        
+        .style1
+        {
+            font-size: 22pt;
+        }
+        .style2
+        {
+            font-size: 17pt;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova-2.5.0.js"></script>
+    <script type="text/javascript">
+        function onLoad() {
+            // alert("onLoad");
+            document.addEventListener("deviceready", onDeviceReady, false);
+        }
+        function onDeviceReady() {
+            //alert("onDeviceReady");
+            // Register the event listener
+            document.addEventListener("backbutton", onBackKeyDown, false);
+        }
+        // Handle the back button
+        function onBackKeyDown() {
+            // alert("onBackKeyDown");
+
+        }
+        function RediirectToPage(x) {
+            if (window.localStorage.getItem("UserId") != null) {
+                if (x == 1) {
+                    window.location.replace('Expences.html', 'flip', true, true);
+                }
+                if (x == 2) {
+                    window.location.replace('ShoppingList.htm', 'flip', true, true);
+                }
+                if (x == 3) {
+                    window.location.replace('SelectProducts.htm', 'flip', true, true);
+                }
+            }
+
+            else {
+                localStorage.clear();
+                window.location.replace('#popupLogin', 'flip', true, true);
+            }
+        }
+
+        function checkID() {
+            Load1();
+            var id = $('#idTXT').val();
+            var password = $('#pssTXT').val();
+            $.ajax({
+                type: "GET",
+                url: "loginPage.aspx",
+                //url: "http://proj.ruppin.ac.il/igroup29/test2/BL/loginPage.aspx",
+                data: { 'id': id, 'password': password },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (res) {
+                    UnLoad1();
+                    alert("התחברת בהצלחה");
+                    window.localStorage.setItem("UserId", res[0].id);
+                    window.location.replace('mainPage.htm');
+                }, // success
+                error: function (error) {
+                    UnLoad1();
+
+                    if (error.status == 1) {
+                        alert("שם משתמש או סיסמא לא נכונים. אנא נסה שוב");
+                    }
+                    else if (error.status == 3) {
+                        alert("נא הזן שם משתמש וסיסמא");
+                    }
+                    else alert(error)
+                    //alert("שם משתמש או סיסמא שהזנת שגויה");
+                    //location.reload();
+                } //error
+            });       // ajax
+        }
+
+        function deleteLacalStorage() {
+            localStorage.clear();
+            window.location.replace('mainPage.htm', 'flip', true, true);
+            navigator.app.exitApp()
+        }
+
+        $(document).bind('pageshow', function () {
+
+            jQuery.support.cors = true;
+        });
+
+        function populateDDL(Name, data) {
+            var select = document.getElementById(Name);
+            for (var i = 0; i < data.length; i++) {
+                var d = data[i];
+                select.options.add(new Option(d.Name, d.Code));
+            }
+        }
+
+        function AddProduct() {
+            var Prodect_amount = $('#Prodect_amountDDL').val();
+            var Prodect_name = $('#Prodect_name').val();
+            var ProductType_id = $('#ProductTypeDDL').val();
+
+            $.ajax({
+                type: "GET",
+                url: "InsertProduct.aspx",
+               // url: "http://proj.ruppin.ac.il/igroup29/test2/BL/InsertProduct.aspx",
+                data:
+                     { 'Prodect_name': Prodect_name, 'Prodect_amount': Prodect_amount, 'ProductType_id': ProductType_id },
+                contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                success: function (res) {
+                    alert("success-InsertProduct.aspx");
+
+                    UnLoad1();
+                    alert("מוצר הוסף בהצלחה")
+                    //                    window.location.replace('mainPage.htm', 'slide', true, true);
+                }, // success
+                error: function (error) {
+                    alert("error-InsertProduct.aspx");
+                    UnLoad1();
+                    //                    if (error.status == 1) {
+                    //                        alert("אנא בחר חיה");
+                    //                    }
+                    alert("שגיאה. אנא נסה שוב")
+                } //error
+            });   // ajax
+        } //AddProduct()
+
+        function Load1() {
+            $.mobile.loading('show', {
+                text: "",
+                theme: 'b',
+                textVisible: true
+            });
+        }
+
+        function UnLoad1() {
+            $.mobile.loading('hide');
+        } // Unload
+
+
+        function register() {
+            var NewUNTB = $('#NewUNTB').val();
+            var NewPassTB = $('#NewPassTB').val();
+            $.ajax({
+                type: "GET",
+                url: "RegisterUser.aspx",
+                //url: "http://proj.ruppin.ac.il/igroup29/test2/BL/RegisterUser.aspx",
+                data: { 'NewUNTB': NewUNTB, 'NewPassTB': NewPassTB },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (res) {
+                    alert("הרישום עבר בהצלחה");
+                    window.localStorage.setItem("UserId", res[0].id);
+                    window.location.replace('mainPage.htm');
+                }, // success
+                error: function (error) {
+                    alert("error-register Page.aspx");
+                    if (error.status == 1) {
+                        alert("סיסמא לא נכונה. אנא נסה שוב");
+                    }
+                    else if (error.status == 2) {
+                        alert("שם משתמש או סיסמא לא נכונים. אנא נסה שוב");
+                    }
+                    else if (error.status == 3) {
+                        alert("נא הזן שם משתמש וסיסמא");
+                    }
+                    else alert(error)
+                    //alert("שם משתמש או סיסמא שהזנת שגויה");
+                    //location.reload();
+                } //error
+            });       // ajax
+
+        }
+
+
+    </script>
+</head>
+<body>
+    <!---------------------------------------------------Main Page--------------------------------------------------->
+    <div data-role="page" data-theme="e" id="mainPage">
+	<div data-role="header" data-theme="e" 
+            style="font-size:medium; height:40px; text-align:center">
+        <span style="font-size:17pt">ניהול משק בית</span>
+	</div><!-- /header -->
+        <!-- /header -->
+        <div data-role="content" id="contentId">
+            <table style="width: 100%; text-align: center; border: 1px; font-size: medium; font-weight: bold"
+                cellspacing="10">
+                <tr>
+                    <td>
+                        <a href="" data-rel="popup" data-position-to="window" data-transition="flip" rel="external"
+                            onclick="RediirectToPage(2)">
+                            <img src="images/list_check-512.png" style="width: 105px; height: 105px" /></a></br>
+                        צפה ברשימה
+                    </td>
+                
+                
+                    <td>
+                        <a href="" data-rel="popup" data-position-to="window" data-transition="flip" rel="external"
+                            onclick="RediirectToPage(3)">
+                            <img src="images/Adds-Add-list-icon.png" style="width: 105px; height: 105px" /></a></br>
+                       הוסף מוצר לרשימה
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" cellspacing="12">
+                      <a href="" data-rel="popup" data-position-to="window" data-transition="flip" rel="external"
+                              onclick="RediirectToPage(1)">
+                            <img src="images/client_list.png" style="width: 105px; height: 105px" /></a></br>
+                            הוצאות
+                    </td>
+                    </tr>
+            </table>
+            </br></br>
+
+        </div>
+        <!-- /content -->
+        <div data-role="footer" id="footer_div" style="text-align: left" data-position="fixed">
+            <a href="#LogOutPage" data-role="button" data-icon="alert" data-rel="dialog" data-transition="flip">
+                התנתק</a>
+        </div>
+        <!-- /footer -->
+    </div>
+    <!-- /page -->
+    <!--------------------------------------------------- Login Page--------------------------------------------------->
+    <div data-role="page" id="popupLogin" data-theme="e">
+        <div data-role="header">
+        </div>
+        <!-- /header -->
+        <div data-role="content" style="padding: 10px 20px; text-align: right">
+            <h3>
+                עליך להתחבר תחילה</h3>
+            <label for="un" id="idTB" dir="rtl">
+                שם משתמש:</label>
+            <input type="text" name="user" id="idTXT" value="" placeholder="שם משתמש" dir="rtl"
+                data-theme="b" />
+            <label for="pw" dir="rtl">
+                סיסמא:</label>
+            <input type="password" name="pass" id="pssTXT" value="" placeholder="סיסמא" dir="rtl"
+                data-theme="b" />
+            <button type="submit" data-theme="e" data-icon="check" onclick="checkID()">
+                התחבר</button>
+                <br /> <br /> <br />
+            <a href="#register" data-role="button" data-icon="edit" data-rel="dialog" data-transition="flip">
+                משתמש חדש</a>
+        </div>
+        <!-- /content -->
+    </div>
+    <!-- /page -->
+    <!--------------------------------------------------- LogOut page --------------------------------------------------->
+    <div data-role="page" data-theme="e" id="LogOutPage" style="height: 100%;">
+        <div data-role="header" dir="rtl" style="height: 50%; text-align: center;">
+            <p>
+                האם ברצונך להתנתק מהמערכת?
+            </p>
+        </div>
+        <div data-role="content" data-theme="e" style="height: 50%">
+            <div data-role="controlgroup">
+                <a href="#pageIndex" data-role="button" onclick="deleteLacalStorage()">כן</a> <a
+                    href="#HomePage" data-rel="back" data-role="button">לא</a>
+            </div>
+        </div>
+    </div>
+    <!-- End page LogOut-->
+
+
+
+        <!--------------------------------------------------- register page --------------------------------------------------->
+    <div data-role="page" data-theme="e" id="register" style="height: 100%;">
+        <div data-role="header" dir="rtl" style="height: 50%; text-align: center;">
+            <p>
+               אנא בחר שם משתמש וסיסמא
+            </p>
+        </div>
+        <div data-role="content" style="padding: 10px 20px; text-align: right">
+            <label for="un" dir="rtl">
+                שם משתמש:</label>
+            <input type="text" name="user" id="NewUNTB" value="" placeholder="שם משתמש עד 15 תווים" dir="rtl"
+                data-theme="b" />
+            <label for="pw" dir="rtl">
+                סיסמא:</label>
+            <input type="password" name="pass" id="NewPassTB" value="" placeholder="סיסמא עד 15 תווים" dir="rtl"
+                data-theme="b" />
+            <button type="submit" data-theme="e" data-icon="check" onclick="register()">
+                הירשם</button>
+
+        </div>
+    </div>
+    <!-- End page LogOut-->
+
+</body>
+</html>

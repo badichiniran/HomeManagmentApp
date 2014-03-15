@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link type="text/css" href="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.min.css"
+        rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova-2.5.0.js"></script>
+    <!--
+     <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />-->
+    <style type="text/css">
+        #contentId
+        {
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript">
+
+        $(document).bind('pageshow', function () {
+            //Load1("");
+            jQuery.support.cors = true;
+        });
+        var UserId = window.localStorage.getItem("UserId")
+        $.ajax
+             ({
+             
+                 type: "GET", // כשרוצים לשלוף נתונים מהמסד נתונים
+                 url: "ShowShoppingList.aspx",
+                 //url: "http://proj.ruppin.ac.il/igroup29/test2/BL/ShowShoppingList.aspx",
+                 data: { 'UserId': UserId },
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                 success: function (info) {
+
+                     fillDynamicList(info);
+                 }, // success
+                 error: function (error) {
+                     UnLoad1(); 
+                     alert("faild ");
+
+                 } //error
+             }); // ajax
+
+
+        //{"ShoppingList":[{"Product_list_id":"4","Product_desc":"אורז","Product_category_desc":"מזון","Unit_desc":"קילוגרם","Comment":"פרסי","Is_purchased":"False","Product_amount":"2"},{"Product_list_id":"5","Product_desc":"סתם","Product_category_desc":"בשר דגים וקפואים","Unit_desc":"יחידות","Comment":"לינגוויני","Is_purchased":"False","Product_amount":"2"}]}
+        function fillDynamicList(info) {
+            var li = "";
+            var Pli = "";
+            for (var key in info) {
+                if (info[key].Is_purchased == "False") {
+                    if (key == 0)
+                        li += info[0].Product_category_desc + ' <input type="checkbox" name="chk" id="ID' + info[key].Product_list_id + '"> <label style="text-align: right" for="ID' + info[key].Product_list_id + '">' + info[key].Product_desc + ', ' + info[key].Product_amount + ' ' + info[key].Unit_desc + ', ' + info[key].Comment + ' </label>';
+                    else {
+                        if (info[key].Product_category_desc != info[key - 1].Product_category_desc)
+                            li += info[key].Product_category_desc + ' <input type="checkbox" name="chk" id="ID' + info[key].Product_list_id + '"> <label style="text-align: right" for="ID' + info[key].Product_list_id + '">' + info[key].Product_desc + ', ' + info[key].Product_amount + ' ' + info[key].Unit_desc + ', ' + info[key].Comment + ' </label>';
+                        else
+                            li += ' <input type="checkbox" name="chk" id="ID' + info[key].Product_list_id + '"> <label style="text-align: right" for="ID' + info[key].Product_list_id + '">' + info[key].Product_desc + ', ' + info[key].Product_amount + ' ' + info[key].Unit_desc + ',' + info[key].Comment + ' </label>';
+                    }
+                }
+                else Pli += ' <input type="checkbox" disabled checked="checked" name="chk" id="PID' + info[key].Product_list_id + '"> <label style="text-align: right" for="PID' + info[key].Product_list_id + '">' + info[key].Product_desc + ', ' + info[key].Product_amount + ' ' + info[key].Unit_desc +  ', ' + info[key].Comment + ' </label>';
+            }
+            UnLoad1(); // finish loading list of products
+
+            //append list to ul
+            $("#prof-list").append(li).promise().done(function () {
+                //wait for append to finish - thats why you use a promise()
+                //done() will run after append is done
+                //add the click event for the redirection to happen to #details-page
+                $(this).on("click", ".info-go", function (e) {
+                    e.preventDefault();
+                    //store the information in the next page's data
+                    //  $("#details-page").data("info", info[this.id]);
+                    //change the page # to second page. 
+                    //Now the URL in the address bar will read index.html#details-page
+                    //where #details-page is the "id" of the second page
+                    //we're gonna redirect to that now using changePage() method
+                    // $.mobile.changePage("#details-page");
+                });
+
+                //refresh list to enhance its styling.
+                $("#info-page").trigger('create');
+            });
+
+
+
+            //append list to ul
+            $("#prof-list1").append(Pli).promise().done(function () {
+                //wait for append to finish - thats why you use a promise()
+                //done() will run after append is done
+                //add the click event for the redirection to happen to #details-page
+                $(this).on("click", ".info-go", function (e) {
+                    e.preventDefault();
+                    //store the information in the next page's data
+                    //  $("#details-page").data("info", info[this.id]);
+                    //change the page # to second page. 
+                    //Now the URL in the address bar will read index.html#details-page
+                    //where #details-page is the "id" of the second page
+                    //we're gonna redirect to that now using changePage() method
+                    // $.mobile.changePage("#details-page");
+                });
+
+                //refresh list to enhance its styling.
+                $("#info-page").trigger('create');
+            });
+            UnLoad1();
+        }
+
+
+
+
+        function back() {
+            window.location.replace('mainPage.htm', 'pop', true, true);
+        }
+
+
+        function RemoveProduct(RemoveOrDelete) {
+
+            //if RemoveOrDelete==1 -remove, if RemoveOrDelete==2 =delete
+            var Product_list_id = $("input[type=checkbox]:checked").map(
+     function () { return this.id; }).get().join(",");
+            if (Product_list_id == "" || Product_list_id.indexOf('ID') < -1) {
+                alert("לא נבחר מוצר");
+            }
+            else {
+                Load1("");
+               $.ajax
+             ({
+                 type: "GET",
+                 url: "RemoveProduct.aspx",
+                 //url: "http://proj.ruppin.ac.il/igroup29/test2/BL/RemoveProduct.aspx",
+                 data: { 'Product_list_id': Product_list_id, 'RemoveOrDelete': RemoveOrDelete },
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "text",
+                 success: function (info) {
+                     UnLoad1();
+                     //alert("המוצר הוסר מהרשימה");
+                     window.location.reload('#info-page', 'pop', true, true);
+
+
+
+                 }, // success
+                 error: function (error) {
+                     UnLoad1();
+                     alert("שגיאה בדף RemoveProduct.aspx");
+                 } //error
+             });   // ajax
+
+            } //else
+        } //RemoveProduct
+
+
+
+        function FinishShopping() {
+            Load1("המתן...")
+            $.ajax
+             ({
+                 type: "GET", // כשרוצים לשלוף נתונים מהמסד נתונים
+                 url: "FinishShopping.aspx",
+                 //url: "http://proj.ruppin.ac.il/igroup29/test2/BL/FinishShopping.aspx",
+                 data: { 'UserId': UserId },
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                 success: function (info) {
+                     alert("הקנייה הסתיימה בהצלחה");
+                     UnLoad1();
+                     window.location.replace('mainPage.htm', 'pop', true, true);
+                 }, // success
+                 error: function (error) {
+                     UnLoad1();
+                     alert("error FinishShopping");
+                 } //error
+             });  // ajax
+        }
+
+
+
+        function Load1(message) {
+            var m = message
+            $.mobile.loading('show', {
+                text: m,
+                theme: 'b',
+                textVisible: true
+            });
+        }
+
+        function UnLoad1() {
+            $.mobile.loading('hide');
+        } // Unload
+    </script>
+</head>
+<body>
+    <div data-role="page" id="info-page">
+        <div data-role="header" data-theme="e">
+            <a href="#" data-role="button" data-icon="check" onclick="RemoveProduct(1)">קניתי</a>
+            <h1>
+                הרשימה שלי</h1>
+            <a href="#FinishShoppingPage" data-role="button" data-icon="star" data-rel="dialog"
+                data-transition="flip">סיים</a>
+        </div>
+        <div data-role="content">
+            <fieldset data-role="controlgroup" data-iconpos="right" id="prof-list" style="text-align: right">
+            </fieldset>
+            <div data-role="header" data-theme="a">
+                <h3>
+                    מוצרים בעגלה</h3>
+            </div>
+            <fieldset data-role="controlgroup" data-iconpos="right" id="prof-list1">
+            </fieldset>
+        </div>
+        <div data-role="footer" style="text-align: left" data-position="fixed">
+            <a href="#" data-role="button" onclick="back()" data-icon="back">חזרה</a> <a class="ui-btn-right"
+                href="#" data-role="button" data-icon="minus" onclick="RemoveProduct(2)">מחק</a>
+        </div>
+        <!-- /footer -->
+    </div>
+    <!--------------------------------------------------- FinishShoppingPage --------------------------------------------------->
+    <div data-role="page" data-theme="e" id="FinishShoppingPage" style="height: 100%;">
+        <div data-role="header" dir="rtl" style="height: 50%; text-align: center;">
+            <p>
+                האם סיימת את הקניה?
+            </p>
+        </div>
+        <div data-role="content" data-theme="e" style="height: 50%">
+            <div data-role="controlgroup">
+                <a href="#pageIndex" data-role="button" onclick="FinishShopping()">כן</a> <a href="#info-page"
+                    data-rel="back" data-role="button">לא</a>
+            </div>
+        </div>
+    </div>
+    <!-- End page LogOut-->
+</body>
+</html>

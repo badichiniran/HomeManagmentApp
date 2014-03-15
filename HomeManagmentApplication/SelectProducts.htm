@@ -1,0 +1,367 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <link type="text/css" href="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova-2.5.0.js"></script>
+    <style type="text/css">
+        .textStyle
+        {
+            text-align: right;
+            direction: rtl;
+        }
+    </style>
+
+        <script type="text/javascript">
+
+            $(document).bind('pageshow', function () {
+               
+                jQuery.support.cors = true;
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "GetProducts.aspx",
+               // url: "http://proj.ruppin.ac.il/igroup29/test2/BL/GetProducts.aspx",
+                data: {},
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (info) {
+                    fillDynamicList(info);
+                }, // success
+                error: function (error) {
+                    UnLoad1(); // finish loading list of products
+                    alert("Error-GetProductTypes.aspx");
+
+
+                } //error
+            });  // ajax
+
+            function fillDynamicList(info) {
+                //set up string for adding <li/>
+                var li = "";
+                //container for $li to be added
+                $.each(info, function (i, name) {
+                    //add the <li> to "li" variable
+                    //note the use of += in the variable
+                    //meaning I'm adding to the existing data. not replacing it.
+                    //store index value in array as id of the <a> tag
+                    li += '<li><a href="#" id="' + i + '" class="info-go">' + name.name + '</a></li>';
+                });
+
+                UnLoad1(); // finish loading list of products
+                //append list to ul
+                $("#prof-list").append(li).promise().done(function () {
+                    //wait for append to finish - thats why you use a promise()
+                    //done() will run after append is done
+                    //add the click event for the redirection to happen to #details-page
+                   
+                    $(this).on("click", ".info-go", function (e) {
+                        e.preventDefault();
+                      
+                        //store the information in the next page's data
+                        $("#details-page").data("info", info[this.id]);
+                        //change the page # to second page. 
+                        //Now the URL in the address bar will read index.html#details-page
+                        //where #details-page is the "id" of the second page
+                        //we're gonna redirect to that now using changePage() method
+                        $("#buttonId .ui-btn-text").text('?מתי נקנה');
+                        $.mobile.changePage("#details-page");
+                    });
+
+                    //refresh list to enhance its styling.
+                    $(this).listview("refresh");
+                });
+                
+                
+            }
+
+            //use pagebeforeshow
+            //DONT USE PAGEINIT! 
+            //the reason is you want this to happen every single time
+            //pageinit will happen only once
+            $(document).on("pagebeforeshow", "#details-page", function () {
+                //get from data - you put this here when the "a" wa clicked in the previous page
+                var info = $(this).data("info");
+                //string to put HTML in          
+                var info_view = '<div class="ui-grid-a" id="Product_name">' + info["name"] + '</div><input id="Product_id" type="text"  hidden="hidden" value=' + info["id"] + ' />';
+
+                //add this to html
+                $(this).find("[data-role=content]").html(info_view);
+                clearFilter();
+            });
+
+
+
+
+            function AddProduct() {
+                Load1();
+                var Prodect_amount = $('#Product_amount').val();
+                var Product_id = $('#Product_id').val();
+                var Units = $("input:radio:checked").val();
+                var Comment = $('#Comment').val();
+                var UserId = window.localStorage.getItem("UserId")
+                $.ajax({
+                    type: "GET",
+                    url: "InsertProduct.aspx",
+                    //url: "http://proj.ruppin.ac.il/igroup29/test2/BL/InsertProduct.aspx",
+                    data:
+                     { 'Prodect_amount': Prodect_amount, 'Product_id': Product_id, 'Units': Units, 'Comment': Comment, 'UserId': UserId },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "text",
+                    success: function (res) {
+                        UnLoad1();
+                        alert("מוצר הוסף בהצלחה")
+                        window.location.replace('#productListPage', 'flip', true, true);
+                    }, // success
+                    error: function (error) {
+                        alert("error-InsertProduct.aspx");
+                        UnLoad1();
+                        
+                    } //error
+                });   // ajax
+            } //AddProduct()
+
+
+            function AddNewProduct() {
+                Load1();
+                var Product_amount = $('#Product_amount1').val();
+                var product_desc = $('#product_desc1').val();
+                var Units = $("input:radio:checked").val();
+                var Comment = $('#Comment1').val();
+                var UserId = window.localStorage.getItem("UserId")
+                $.ajax({
+                    type: "GET",
+                    url: "InsertNewProduct.aspx",
+                    //url: "http://proj.ruppin.ac.il/igroup29/test2/BL/InsertNewProduct.aspx",
+                    data:
+                     { 'product_desc': product_desc, 'Product_amount': Product_amount, 'Units': Units, 'Comment': Comment, 'UserId': UserId },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "text",
+                    success: function (res) {
+                        UnLoad1();
+                        alert("מוצר הוסף בהצלחה")
+                        window.location.replace('#productListPage', 'flip', true, true);
+                    }, // success
+                    error: function (error) {
+                        alert("error-InsertNewProduct.aspx");
+                        UnLoad1();
+                       
+                    } //error
+                });   // ajax
+            } //AddProduct()
+
+            function Load1() {
+                $.mobile.loading('show', {
+                    text: "",
+                    theme: 'b',
+                    textVisible: true
+                });
+            }
+
+            function UnLoad1() {
+                $.mobile.loading('hide');
+            } // Unload
+
+            function back() {
+                window.location.replace('mainPage.htm', 'pop', true, true);
+            }
+            function backToSelectProduct() {
+                window.location.replace('SelectProducts.htm', 'pop', true, true);
+            }
+            
+            function RediirectToPage() {
+                var searchText = $('#prof-list').prev().find(".ui-input-search .ui-input-text").val();
+                var newProductDesc = document.getElementById("product_desc1");
+                newProductDesc.value = searchText;
+                window.location.replace('#InsertNewProduct', 'flip', true, true);
+            }
+
+            function LastPurchesd() {
+                Load1();
+                var UserId = window.localStorage.getItem("UserId")
+                var Product_id = $('#Product_id').val();
+                $.ajax({
+                    type: "GET",
+                    url: "GetLastPurchesd.aspx",
+                    //url: "http://proj.ruppin.ac.il/igroup29/test2/BL/GetLastPurchesd.aspx",
+                    data:
+                     { 'UserId': UserId, 'Product_id': Product_id },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (res) {
+                        UnLoad1();
+                        if (res.length == 0)
+                            $("#buttonId .ui-btn-text").text('אף פעם');
+                        else
+                            $("#buttonId .ui-btn-text").text(res[0].LastPurchesDate);
+                        //                        $("#buttonId").button('disable');	
+                    }, // success
+                    error: function (error) {
+                        alert("error-GetLastPurchesd.aspx");
+                        UnLoad1();
+                        alert("שגיאה. אנא נסה שוב")
+                    } //error
+                }); // ajax
+            } //LastPurchesd()
+
+
+            function uu() {
+                Load1();
+            }
+
+            function clearFilter() {
+                $('input[data-type="search"]').val("");
+                $('input[data-type="search"]').trigger("keyup");
+            }
+
+</script>
+
+</head>
+<body onload="uu()">
+    <!--רשימת מוצרים -->
+    <div data-role="page" id="productListPage" data-theme="e" data-position="fixed">
+        <div data-role="header" data-position="fixed">
+            <a href="#" data-role="button" data-mini="true" data-icon="plus" onclick="RediirectToPage()"
+                data-rel="popup" data-position-to="window" data-transition="flip">חדש</a>
+            <h1>
+                רשימת מוצרים</h1>
+        </div>
+        <div data-role="content">
+            <ul class="emp_listview" data-role="listview" id="prof-list" data-divider-theme="e"
+                data-inset="true" data-name="niran" data-filter-placeholder="חפש מוצר" data-filter="true"
+                data>
+
+            </ul>
+        </div>
+        <div data-role="footer" style="text-align: left" data-position="fixed">
+            <a href="#" data-role="button" onclick="back()" data-icon="back">חזרה</a>
+        </div>
+        <!-- /footer -->
+    </div>
+    <!--פרטי מוצר -->
+    <div data-role="page" id="details-page" data-theme="e" style="text-align: right">
+        <div data-role="header" data-position="fixed">
+            <a href="#" data-role="button" data-mini="true" data-icon="plus" onclick="AddProduct()">
+                הוסף</a>
+            <h1>
+                פרטי מוצר</h1>
+        </div>
+        <div data-role="content" style="text-decoration: underline; text-align: center;">
+        </div>
+        <table style="width: 100%;">
+            <tr>
+                <td>
+                    <input type="range" name="slider-fill" id="Product_amount" value="1" min="1" max="20"
+                        data-highlight="true" />
+                </td>
+                <td class="style2">
+                    :בחר כמות
+                </td>
+            </tr>
+        </table>
+        <div data-role="fieldcontain" align="center" style="border-bottom-style: none">
+            <br />
+            <br />
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                <input type="radio" name="radio-view" id="radio-view-a" value="1" checked="checked" />
+                <label for="radio-view-a">
+                    יחידות</label>
+                <input type="radio" name="radio-view" id="radio-view-b" value="2" />
+                <label for="radio-view-b">
+                    קילוגרם</label>
+                <input type="radio" name="radio-view" id="radio-view-c" value="3" />
+                <label for="radio-view-c">
+                    גרם</label>
+                <input type="radio" name="radio-view" id="radio-view-d" value="4" />
+                <label for="radio-view-d">
+                    חבילות</label>
+            </fieldset>
+        </div>
+        <br />
+        <table style="width: 100%;">
+            <tr>
+                <td class="style2">
+                    <input id="Comment" type="text" />
+                </td>
+                <td class="style2">
+                    :הערה
+                </td>
+            </tr>
+        </table>
+        <a href="#" id="buttonId" data-role="button" data-icon="info" onclick="LastPurchesd()">
+            ?מתי נקנה</a>
+        <div data-role="footer" style="text-align: left" data-position="fixed">
+            <a href="#" data-rel="back" data-role="button" data-icon="back">חזרה</a>
+        </div>
+    </div>
+    <!--מוצר חדש לרשימה -->
+    <div data-role="page" id="InsertNewProduct" data-theme="e" style="text-align: right">
+        <div data-role="header" data-position="fixed">
+            <a href="#" data-role="button" data-mini="true" data-icon="plus" onclick="AddNewProduct()">
+                הוסף</a>
+            <h1>
+                מוצר חדש</h1>
+        </div>
+        <div data-role="content" style="text-decoration: underline; text-align: center;">
+        </div>
+        <table style="width: 100%;">
+            <tr>
+                <td class="style2">
+                    <input id="product_desc1" type="text" />
+                </td>
+                <td class="style2">
+                    :תיאור
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="range" name="slider-fill" id="Product_amount1" value="1" min="1" max="20"
+                        data-highlight="true" />
+                </td>
+                <td class="style2">
+                    :בחר כמות
+                </td>
+            </tr>
+        </table>
+        <div data-role="fieldcontain" align="center" style="border-bottom-style: none">
+            <br />
+            <br />
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                <input type="radio" name="radio-view" id="radio1" value="1" checked="checked" />
+                <label for="radio1">
+                    יחידות</label>
+                <input type="radio" name="radio-view" id="radio2" value="2" />
+                <label for="radio2">
+                    קילוגרם</label>
+                <input type="radio" name="radio-view" id="radio3" value="3" />
+                <label for="radio3">
+                    גרם</label>
+                <input type="radio" name="radio-view" id="radio4" value="4" />
+                <label for="radio4">
+                    חבילות</label>
+            </fieldset>
+        </div>
+        <br />
+        <table style="width: 100%;">
+            <tr>
+                <td class="style2">
+                    <input id="Comment1" type="text" />
+                </td>
+                <td class="style2">
+                    :הערה
+                </td>
+            </tr>
+        </table>
+                <div data-role="footer" style="text-align: left" data-position="fixed">
+            <a href="#" data-role="button" onclick="backToSelectProduct()" data-icon="back">חזרה</a>
+        </div>
+    </div>
+    <!-- /page -->
+</body>
+</html>
