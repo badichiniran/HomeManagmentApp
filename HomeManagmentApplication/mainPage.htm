@@ -166,12 +166,13 @@
 
 
         function register() {
+
             var NewUNTB = $('#NewUNTB').val();
             var NewPassTB = $('#NewPassTB').val();
+
             $.ajax({
                 type: "GET",
                 url: "RegisterUser.aspx",
-                //url: "http://proj.ruppin.ac.il/igroup29/test2/BL/RegisterUser.aspx",
                 data: { 'NewUNTB': NewUNTB, 'NewPassTB': NewPassTB },
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
