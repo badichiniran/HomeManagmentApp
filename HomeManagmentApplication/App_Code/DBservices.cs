@@ -127,7 +127,7 @@ public class DBservices
             da = new SqlDataAdapter(SQLQueries.insertNewProductToList(p), con);
             DataSet ds = new DataSet();
             da.Fill(ds);
-            dt = ds.Tables["Products"];
+            dt = ds.Tables["HM_Products"];
 
         }
         catch (Exception ex)
@@ -150,7 +150,7 @@ public class DBservices
             da = new SqlDataAdapter(SQLQueries.insertProductToList(p), con);
             DataSet ds = new DataSet();
             da.Fill(ds);
-            dt = ds.Tables["Products"];
+            dt = ds.Tables["HM_Products"];
 
         }
         catch (Exception ex)
@@ -163,28 +163,7 @@ public class DBservices
 
     }
 
-    public DataTable ShowShoppingList()
-    {
-
-        SqlConnection con;
-        try
-        {
-            con = connect();
-            da = new SqlDataAdapter(SQLQueries.ShowShoppingList(), con);
-            DataSet ds = new DataSet();
-            da.Fill(ds);
-            dt = ds.Tables[0];
-
-        }
-        catch (Exception ex)
-        {
-            Logger.writeToLog(LoggerLevel.ERROR, "page :DBServicesAPP.cs, function: ShowShoppingList(), exeption message: " + ex.Message);
-            throw ex;
-        }
-        disconnect(con);
-        return dt;
-    }
-
+   
     public DataTable ShowShoppingList_byUserId(string UserId)
     {
         SqlConnection con;
