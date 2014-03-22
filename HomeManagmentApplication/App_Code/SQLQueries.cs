@@ -65,7 +65,7 @@ public class SQLQueries
     public static String ShowShoppingList_byUserId(string UserId)
     {
 
-        return "SELECT Product_list_id,Product_desc,Product_category_desc,Unit_desc,Comment,Is_purchased,Product_amount FROM HM_ShowProductList_VW  where UserId='" + UserId + "' order by Product_category_desc ";
+        return "SELECT Product_list_id,Product_desc,Product_category_desc,Unit_desc,Comment,Is_purchased,Product_amount FROM HM_ShowProductList_VW  where UserId='" + UserId + "' order by Product_category_desc  ";
     }
 
     public static String RemoveProduct(string Product_list_id)
