@@ -280,7 +280,7 @@ public class DBservices
 
     public void AddPurches(string amount,string  comment,string  Category_id,string  PurchesDate,string  paymentMethod,string  UserId)
     {
-        string InsertQuery = "INSERT INTO [HM_Expenses] ([amount],[comment],[Category_id],[PurchesDate],[paymentMethod],[UserId]) VALUES ('" + amount + "','" + comment + "','" + Category_id + "','" + PurchesDate + "','" + paymentMethod + "','" + UserId + "')";
+        string InsertQuery = "INSERT INTO [HM_Expenses] ([amount],[comment],[ExpenseCategory_id],[PurchesDate],[paymentMethod],[UserId]) VALUES ('" + amount + "','" + comment + "','" + Category_id + "','" + PurchesDate + "','" + paymentMethod + "','" + UserId + "')";
         SqlConnection con;
         try
         {
