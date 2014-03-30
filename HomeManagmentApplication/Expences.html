@@ -116,6 +116,7 @@
                 <ul data-role="listview">
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(61)">אוכל </a></li>
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(62)">וטרינר</a></li>
+                     <li><a href="#ExpencesDetailsPage" onclick="changePage(63)">אחר</a></li>
                 </ul>
             </div>
             <!-- /collapsible -->
@@ -169,13 +170,16 @@
              <span style="font-size: 15pt">דרך תשלום:</span>
             <div data-role="fieldcontain" align="center" style="border-bottom-style: none">
 
-                <fieldset data-role="controlgroup" data-type="vertical" data-mini="false">
+                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="false">
                     <input type="radio" name="radio-view" id="radio1" value="מזומן" checked="checked" />
                     <label for="radio1" >
                         מזומן</label>
                     <input type="radio" name="radio-view" id="radio2" value="אשראי" />
                     <label for="radio2">
                         אשראי</label>
+                    <input type="radio" name="radio-view" id="radio3" value="צק" />
+                    <label for="radio3">&nbsp&nbsp
+                         צ'ק&nbsp</label>
 
                 </fieldset>
             </div>
