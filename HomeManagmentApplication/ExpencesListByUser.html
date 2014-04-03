@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ניהול משק בית</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova-2.5.0.js"></script>
+
+    <style>
+        td {
+        color:white;
+        border-style:solid;
+        border-color:#f57920;
+        background-color:#adacac;
+        }
+
+        .row1 {
+        color:black;
+        border-style:solid;
+        border-color:#f57920;
+        background-color:White;
+        }
+     
+                       
+    </style>
+    <script type="text/javascript" >
+ $(document).bind('pageshow', function () {
+            //Load1("");
+            jQuery.support.cors = true;
+        });
+       var User_id = window.localStorage.getItem("UserId");
+            $.ajax
+        ({
+            type: "GET", 
+            //url: "ExpencesListByUser.aspx",
+            url: "http://proj.ruppin.ac.il/igroup93/test2/ExpencesListByUser.aspx",
+            data: { 'User_id': User_id },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (res) {
+                resLenght = res["UserExpences"].length;
+                CreateTable(resLenght, res["UserExpences"]);
+            }, // success
+            error: function (error) {
+                alert(error);
+            } //error
+        }); // ajax
+        
+       
+
+        function CreateTable(lenght, requestName) {
+            var tbl = "";
+            //tableArr = new Array(lenght)
+            //for (var i = 0; i < lenght; i++) {
+            //    tableArr[i] = new Array(lenght);
+            //}
+            tbl += "<table>";
+            for (var p = 0; p < lenght; p++) {
+                tbl += "<tr>";
+                for (var j = 0; j < 1; j++) {
+                    if (p == 0 && j == 0) {
+                        //                         
+                        tbl += "<td colspan='2'>תאריך</td>";
+                        tbl += "<td colspan='2'> סוג</td>";                        
+                        tbl += "<td colspan='2'>סכום</td>";
+                        tbl += "<td colspan='2'>הערה</td>";
+                        tbl += "</tr>";
+                        tbl += "<tr>";
+                    }
+                    if (p % 2 == 0) {
+                        tbl += "<td colspan='2' class=row1>" + requestName[p].PurchesDate + "</td>";
+                        tbl += "<td colspan='2' class=row1>" + requestName[p].Category_desc + "</td>";
+                        tbl += "<td colspan='2'class=row1>" + requestName[p].amount + "</td>";
+                        tbl += "<td colspan='2' class=row1>" + requestName[p].comment + "</td>";
+                    }
+                    else {
+                        tbl += "<td colspan='2' class=row1>" + requestName[p].PurchesDate + "</td>";
+                        tbl += "<td colspan='2' class=row1>" + requestName[p].Category_desc + "</td>";
+                        tbl += "<td colspan='2' class=row1>" + requestName[p].amount + "</td>";
+                        tbl += "<td colspan='2' class=row1>" + requestName[p].comment + "</td>";
+                    }
+                }
+                tbl += "</tr>";
+            }
+            tbl += "</table>";
+
+            var x = document.getElementById("ExpencesTable");
+            x.innerHTML = tbl;
+        } //end CreateTable()
+        function back() {
+            window.location.replace('Expences.html', 'pop', true, true);
+        }
+    </script>
+
+</head>
+<body>
+
+ <div data-role="page" data-theme="e" id="ExpencesList">
+
+        <div data-role="header" data-theme="e" data-position="fixed"
+            style="text-align: center"><h1>
+                רשימת הוצאות</h1>
+        </div>
+
+        <div data-role="content" id="contentId" data-theme="e" style="text-align: center;">
+
+             <p dir="rtl" id="ExpencesTable" style="text-align: center; height: auto; width: 100%"></p>
+        </div>
+
+        <!-- /content -->
+
+        <div data-role="footer" style="text-align: left" data-position="fixed">
+            <a href="#" data-role="button" data-icon="back"  onclick="back()">חזרה</a>
+        </div>
+    </div>
+</body>
+</html>
+

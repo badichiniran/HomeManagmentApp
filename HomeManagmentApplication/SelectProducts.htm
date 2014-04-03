@@ -26,8 +26,8 @@
 
             $.ajax({
                 type: "GET",
-                url: "GetProducts.aspx",
-               // url: "http://proj.ruppin.ac.il/igroup29/test2/BL/GetProducts.aspx",
+                //url: "GetProducts.aspx",
+                url: "http://proj.ruppin.ac.il/igroup93/test2/GetProducts.aspx",
                 data: {},
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -108,8 +108,8 @@
                 var UserId = window.localStorage.getItem("UserId")
                 $.ajax({
                     type: "GET",
-                    url: "InsertProduct.aspx",
-                    //url: "http://proj.ruppin.ac.il/igroup29/test2/BL/InsertProduct.aspx",
+                    //url: "InsertProduct.aspx",
+                    url: "http://proj.ruppin.ac.il/igroup93/test2/InsertProduct.aspx",
                     data:
                      { 'Prodect_amount': Prodect_amount, 'Product_id': Product_id, 'Units': Units, 'Comment': Comment, 'UserId': UserId },
                     contentType: "application/json; charset=utf-8",
@@ -137,8 +137,8 @@
                 var UserId = window.localStorage.getItem("UserId")
                 $.ajax({
                     type: "GET",
-                    url: "InsertNewProduct.aspx",
-                    //url: "http://proj.ruppin.ac.il/igroup29/test2/BL/InsertNewProduct.aspx",
+                    //url: "InsertNewProduct.aspx",
+                    url: "http://proj.ruppin.ac.il/igroup93/test2/InsertNewProduct.aspx",
                     data:
                      { 'product_desc': product_desc, 'Product_amount': Product_amount, 'Units': Units, 'Comment': Comment, 'UserId': UserId },
                     contentType: "application/json; charset=utf-8",
@@ -175,7 +175,7 @@
                 window.location.replace('SelectProducts.htm', 'pop', true, true);
             }
             
-            function RediirectToPage() {
+            function RedirectToPage() {
                 var searchText = $('#prof-list').prev().find(".ui-input-search .ui-input-text").val();
                 var newProductDesc = document.getElementById("product_desc1");
                 newProductDesc.value = searchText;
@@ -188,8 +188,8 @@
                 var Product_id = $('#Product_id').val();
                 $.ajax({
                     type: "GET",
-                    url: "GetLastPurchesd.aspx",
-                    //url: "http://proj.ruppin.ac.il/igroup29/test2/BL/GetLastPurchesd.aspx",
+                    //url: "GetLastPurchesd.aspx",
+                    url: "http://proj.ruppin.ac.il/igroup93/test2/GetLastPurchesd.aspx",
                     data:
                      { 'UserId': UserId, 'Product_id': Product_id },
                     contentType: "application/json; charset=utf-8",
@@ -227,7 +227,7 @@
     <!--רשימת מוצרים -->
     <div data-role="page" id="productListPage" data-theme="e" data-position="fixed">
         <div data-role="header" data-position="fixed">
-            <a href="#" data-role="button" data-mini="true" data-icon="plus" onclick="RediirectToPage()"
+            <a href="#" data-role="button" data-mini="true" data-icon="plus" onclick="RedirectToPage()"
                 data-rel="popup" data-position-to="window" data-transition="flip">חדש</a>
             <h1>
                 רשימת מוצרים</h1>

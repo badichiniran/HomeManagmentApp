@@ -21,7 +21,10 @@ public class SQLQueries
         return "SELECT UserPassword,UserId FROM HM_Users WHERE UserName = '" + UserName + "' and UserPassword = '" + passwordString + "'";
     }
 
-
+    public static String UserExpences(string id)
+    {
+        return "select top 10 * from HM_ExpencesList_VW where userId=" + id + " order by PurchesDateFilter desc";
+    }
 
     public static String ProductCategories()
     {

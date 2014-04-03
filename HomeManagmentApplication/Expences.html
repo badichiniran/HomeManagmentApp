@@ -29,7 +29,8 @@
             Load();
             $.ajax({
                 type: "GET",
-                url: "AddPurches.aspx",
+                url: "http://proj.ruppin.ac.il/igroup93/test2/AddPurches.aspx",
+               // url: "AddPurches.aspx",
                 data:
                      { 'amount': amount, 'comment': comment, 'Category_id': Category_id, 'PurchesDate': PurchesDate, 'paymentMethod': paymentMethod, 'UserId': UserId },
                 contentType: "application/json; charset=utf-8",
@@ -58,6 +59,9 @@
             $.mobile.loading('hide');
         } // Unload
 
+        function RedirectToPage() {
+            window.location.replace('ExpencesListByUser.html', 'flip', true, true);
+        }
     </script>
 
 </head>
@@ -66,7 +70,10 @@
     <div data-role="page" data-theme="e" id="ExpencesList">
 
         <div data-role="header" data-theme="e" data-position="fixed"
-            style="text-align: center"><h1>
+            style="text-align: center">
+            <a href="#" data-role="button" data-mini="true" data-icon="info" onclick="RedirectToPage()"
+                data-rel="popup" data-position-to="window" data-transition="flip">היסטוריה</a>
+            <h1>
                 רשימת הוצאות</h1>
         </div>
 

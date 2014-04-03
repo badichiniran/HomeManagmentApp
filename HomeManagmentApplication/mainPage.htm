@@ -59,8 +59,8 @@
             var password = $('#pssTXT').val();
             $.ajax({
                 type: "GET",
-                url: "loginPage.aspx",
-                //url: "http://proj.ruppin.ac.il/igroup29/test2/BL/loginPage.aspx",
+                //url: "loginPage.aspx",
+                url: "http://proj.ruppin.ac.il/igroup93/test2/loginPage.aspx",
                 data: { 'id': id, 'password': password },
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -112,8 +112,8 @@
 
             $.ajax({
                 type: "GET",
-                url: "InsertProduct.aspx",
-               // url: "http://proj.ruppin.ac.il/igroup29/test2/BL/InsertProduct.aspx",
+                //url: "InsertProduct.aspx",
+                url: "http://proj.ruppin.ac.il/igroup93/test2/InsertProduct.aspx",
                 data:
                      { 'Prodect_name': Prodect_name, 'Prodect_amount': Prodect_amount, 'ProductType_id': ProductType_id },
                 contentType: "application/json; charset=utf-8",
@@ -156,7 +156,8 @@
 
             $.ajax({
                 type: "GET",
-                url: "RegisterUser.aspx",
+                url: "http://proj.ruppin.ac.il/igroup93/test2/RegisterUser.aspx",
+                //url: "RegisterUser.aspx",
                 data: { 'NewUNTB': NewUNTB, 'NewPassTB': NewPassTB },
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
