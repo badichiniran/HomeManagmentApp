@@ -31,7 +31,7 @@
             //Load1("");
             jQuery.support.cors = true;
         });
-       var User_id = window.localStorage.getItem("UserId");
+            var User_id = window.localStorage.getItem("UserId");
             $.ajax
         ({
             type: "GET", 
@@ -41,8 +41,8 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (res) {
-                resLenght = res["UserExpences"].length;
-                CreateTable(resLenght, res["UserExpences"]);
+                CreateTableExpences(res["UserExpences"]); 
+                CreateTableExpencesByMonth(res["UserExpencesByMonth"]);
             }, // success
             error: function (error) {
                 alert(error);
@@ -51,12 +51,9 @@
         
        
 
-        function CreateTable(lenght, requestName) {
+        function CreateTableExpences(requestName) {
+            var lenght = requestName.length;
             var tbl = "";
-            //tableArr = new Array(lenght)
-            //for (var i = 0; i < lenght; i++) {
-            //    tableArr[i] = new Array(lenght);
-            //}
             tbl += "<table>";
             for (var p = 0; p < lenght; p++) {
                 tbl += "<tr>";
@@ -89,7 +86,37 @@
 
             var x = document.getElementById("ExpencesTable");
             x.innerHTML = tbl;
-        } //end CreateTable()
+        } //end CreateTableExpences()
+        function CreateTableExpencesByMonth(requestName) {
+            var lenght = requestName.length;
+            var tbl = "";
+            tbl += "<table align='center'>";
+            for (var p = 0; p < lenght; p++) {
+                tbl += "<tr>";
+                for (var j = 0; j < 1; j++) {
+                    if (p == 0 && j == 0) {
+                        //                         
+                        tbl += "<td colspan='2'>תאריך</td>";
+                        tbl += "<td colspan='2'>סכום</td>";
+                        tbl += "</tr>";
+                        tbl += "<tr>";
+                    }
+                    if (p % 2 == 0) {
+                        tbl += "<td colspan='2' class=row1>" + requestName[p].MonthAndYear + "</td>";
+                        tbl += "<td colspan='2' class=row1>" + requestName[p].amountSum + "</td>";
+                    }
+                    else {
+                        tbl += "<td colspan='2' class=row1>" + requestName[p].MonthAndYear + "</td>";
+                        tbl += "<td colspan='2' class=row1>" + requestName[p].amountSum + "</td>";
+                    }
+                }
+                tbl += "</tr>";
+            }
+            tbl += "</table>";
+
+            var x = document.getElementById("ExpencesTableByMonth");
+            x.innerHTML = tbl;
+        } //end CreateTableExpences()
         function back() {
             window.location.replace('Expences.html', 'pop', true, true);
         }
@@ -104,10 +131,10 @@
             style="text-align: center"><h1>
                 רשימת הוצאות</h1>
         </div>
-
         <div data-role="content" id="contentId" data-theme="e" style="text-align: center;">
 
              <p dir="rtl" id="ExpencesTable" style="text-align: center; height: auto; width: 100%"></p>
+             <p dir="rtl"  id="ExpencesTableByMonth" style="text-align: center; height: auto; width: 100%"></p>
         </div>
 
         <!-- /content -->

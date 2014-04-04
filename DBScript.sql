@@ -1,7 +1,7 @@
 
 CREATE TABLE [dbo].[HM_ExpensesCategories](
-	[ExpenseCategory_id] [nvarchar](10) primary key ,
-	[Category_desc] [nvarchar](20) NULL
+	[ExpenseCategory_id] int  primary key ,
+	[Category_desc] [nvarchar](30) NULL
 
 ) 
 
@@ -24,9 +24,10 @@ CREATE TABLE [dbo].[HM_Users](
 	)
 
 CREATE TABLE [dbo].[HM_Expenses](
-	[amount] [nvarchar](30) NULL,
+	id [int]  primary key IDENTITY(1,1) ,
+	[amount] int NULL,
 	[comment] [nvarchar](30) NULL,
-	[ExpenseCategory_id] [nvarchar](10) NULL,
+	[ExpenseCategory_id] int NULL,
 	[PurchesDate] [datetime] NULL,
 	[paymentMethod] [nvarchar](30) NULL,
 	[UserId] [int] NULL,

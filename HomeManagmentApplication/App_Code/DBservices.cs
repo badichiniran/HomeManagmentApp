@@ -317,5 +317,24 @@ public class DBservices
         return dt;
     }
 
+    public DataTable UserExpencesByMonth(string id)
+    {
+        SqlConnection con;
+        try
+        {
+            con = connect();
+            da = new SqlDataAdapter(SQLQueries.UserExpencesByMonth(id), con);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            dt = ds.Tables[0];
 
+        }
+        catch (Exception ex)
+        {
+            Logger.writeToLog(LoggerLevel.ERROR, "page :DBServicesAPP.cs, function: ActivityShow(), exeption message: " + ex.Message);
+            throw ex;
+        }
+        disconnect(con);
+        return dt;
+    }
 }

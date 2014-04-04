@@ -25,7 +25,11 @@ public class SQLQueries
     {
         return "select top 10 * from HM_ExpencesList_VW where userId=" + id + " order by PurchesDateFilter desc";
     }
-
+    public static String UserExpencesByMonth(string id)
+    {
+        string query = "SELECT RIGHT(CONVERT(VARCHAR(10), DATEADD(mm, DATEDIFF(mm, 0, PurchesDate),0) , 105), 7) AS MonthAndYear, sum(amount) AS amountSum FROM [dbo].[HM_Expenses] where  userId=" + id + " GROUP BY DATEADD(mm, DATEDIFF(mm, 0,PurchesDate),0) ORDER BY 1 DESC";
+        return query;
+    }
     public static String ProductCategories()
     {
         return "SELECT * FROM HM_Product_categories";

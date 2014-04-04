@@ -23,11 +23,13 @@ public partial class ExpencesListByUser : System.Web.UI.Page
         JavaScriptSerializer serializer = new JavaScriptSerializer();
 
         DataTable UserExpences;
+        DataTable UserExpencesByMonth;
         string User_id = requestQuery["User_id"];
 
         try
         {
             UserExpences = dbs.UserExpences(User_id);
+            UserExpencesByMonth = dbs.UserExpencesByMonth(User_id);
         }
 
         catch (Exception ex)
@@ -36,7 +38,9 @@ public partial class ExpencesListByUser : System.Web.UI.Page
             throw;
         }
         string jsonStringUserExpences = serializer.Serialize(SerializeTable(UserExpences));
-        string jsonString = "{\"UserExpences\":" + jsonStringUserExpences + "}";
+        string jsonStringUserExpencesByMonth = serializer.Serialize(SerializeTable(UserExpencesByMonth));
+        //string jsonString = "{\"UserExpences\":" + jsonStringUserExpences + "}";
+        string jsonString = "{\"UserExpences\":" + jsonStringUserExpences + ",\"UserExpencesByMonth\":" + jsonStringUserExpencesByMonth + "}";
         Response.Write(jsonString);
         Response.End();
 
