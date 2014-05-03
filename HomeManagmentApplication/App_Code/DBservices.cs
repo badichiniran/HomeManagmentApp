@@ -317,16 +317,23 @@ public class DBservices
         return dt;
     }
 
+   
     public DataTable UserExpencesByMonth(string id)
     {
         SqlConnection con;
+        DataTable dt = new DataTable();
         try
         {
             con = connect();
-            da = new SqlDataAdapter(SQLQueries.UserExpencesByMonth(id), con);
-            DataSet ds = new DataSet();
-            da.Fill(ds);
-            dt = ds.Tables[0];
+            SqlCommand cmd = new SqlCommand("HM_GetExpencesByMonth", con);
+            
+            SqlParameter p1 = new SqlParameter("Userid", id);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(p1);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+          
+            adapter.Fill(dt);
+
 
         }
         catch (Exception ex)

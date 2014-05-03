@@ -27,7 +27,7 @@
             $.ajax({
                 type: "GET",
                 //url: "GetProducts.aspx",
-                url: "http://proj.ruppin.ac.il/igroup93/test2/GetProducts.aspx",
+                url: "http://proj.ruppin.ac.il/igroup93/test2/BL/GetProducts.aspx",
                 data: {},
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -109,7 +109,7 @@
                 $.ajax({
                     type: "GET",
                     //url: "InsertProduct.aspx",
-                    url: "http://proj.ruppin.ac.il/igroup93/test2/InsertProduct.aspx",
+                    url: "http://proj.ruppin.ac.il/igroup93/test2/BL/InsertProduct.aspx",
                     data:
                      { 'Prodect_amount': Prodect_amount, 'Product_id': Product_id, 'Units': Units, 'Comment': Comment, 'UserId': UserId },
                     contentType: "application/json; charset=utf-8",
@@ -138,7 +138,7 @@
                 $.ajax({
                     type: "GET",
                     //url: "InsertNewProduct.aspx",
-                    url: "http://proj.ruppin.ac.il/igroup93/test2/InsertNewProduct.aspx",
+                    url: "http://proj.ruppin.ac.il/igroup93/test2/BL/InsertNewProduct.aspx",
                     data:
                      { 'product_desc': product_desc, 'Product_amount': Product_amount, 'Units': Units, 'Comment': Comment, 'UserId': UserId },
                     contentType: "application/json; charset=utf-8",
@@ -189,7 +189,7 @@
                 $.ajax({
                     type: "GET",
                     //url: "GetLastPurchesd.aspx",
-                    url: "http://proj.ruppin.ac.il/igroup93/test2/GetLastPurchesd.aspx",
+                    url: "http://proj.ruppin.ac.il/igroup93/test2/BL/GetLastPurchesd.aspx",
                     data:
                      { 'UserId': UserId, 'Product_id': Product_id },
                     contentType: "application/json; charset=utf-8",

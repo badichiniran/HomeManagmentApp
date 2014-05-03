@@ -59,8 +59,8 @@
             var password = $('#pssTXT').val();
             $.ajax({
                 type: "GET",
-                //url: "loginPage.aspx",
-                url: "http://proj.ruppin.ac.il/igroup93/test2/loginPage.aspx",
+                //url: "BL/loginPage.aspx",
+                url: "http://proj.ruppin.ac.il/igroup93/test2/BL/loginPage.aspx",
                 data: { 'id': id, 'password': password },
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -113,7 +113,7 @@
             $.ajax({
                 type: "GET",
                 //url: "InsertProduct.aspx",
-                url: "http://proj.ruppin.ac.il/igroup93/test2/InsertProduct.aspx",
+                url: "http://proj.ruppin.ac.il/igroup93/test2/BL/InsertProduct.aspx",
                 data:
                      { 'Prodect_name': Prodect_name, 'Prodect_amount': Prodect_amount, 'ProductType_id': ProductType_id },
                 contentType: "application/json; charset=utf-8",
@@ -156,7 +156,7 @@
 
             $.ajax({
                 type: "GET",
-                url: "http://proj.ruppin.ac.il/igroup93/test2/RegisterUser.aspx",
+                url: "http://proj.ruppin.ac.il/igroup93/test2/BL/RegisterUser.aspx",
                 //url: "RegisterUser.aspx",
                 data: { 'NewUNTB': NewUNTB, 'NewPassTB': NewPassTB },
                 contentType: "application/json; charset=utf-8",
@@ -255,7 +255,7 @@
                 התחבר</button>
                 <br /> <br /> <br />
             <a href="#register" data-role="button" data-icon="edit" data-rel="dialog" data-transition="flip">
-                משתמש חדש</a>
+               הירשם</a>
         </div>
         <!-- /content -->
     </div>

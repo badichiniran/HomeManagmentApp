@@ -35,8 +35,8 @@
             $.ajax
         ({
             type: "GET", 
-            //url: "ExpencesListByUser.aspx",
-            url: "http://proj.ruppin.ac.il/igroup93/test2/ExpencesListByUser.aspx",
+            //url: "BL/ExpencesListByUser.aspx",
+            url: "http://proj.ruppin.ac.il/igroup93/test2/BL/ExpencesListByUser.aspx",
             data: { 'User_id': User_id },
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -98,16 +98,19 @@
                         //                         
                         tbl += "<td colspan='2'>תאריך</td>";
                         tbl += "<td colspan='2'>סכום</td>";
+                        tbl += "<td colspan='2'>מאזן</td>";
                         tbl += "</tr>";
                         tbl += "<tr>";
                     }
                     if (p % 2 == 0) {
                         tbl += "<td colspan='2' class=row1>" + requestName[p].MonthAndYear + "</td>";
-                        tbl += "<td colspan='2' class=row1>" + requestName[p].amountSum + "</td>";
+                        tbl += "<td colspan='2' class=row1>" + requestName[p].Expences_amount + "</td>";
+                        tbl += "<td colspan='2' class=row1>" + requestName[p].balance + "</td>";
                     }
                     else {
                         tbl += "<td colspan='2' class=row1>" + requestName[p].MonthAndYear + "</td>";
-                        tbl += "<td colspan='2' class=row1>" + requestName[p].amountSum + "</td>";
+                        tbl += "<td colspan='2' class=row1>" + requestName[p].Expences_amount + "</td>";
+                        tbl += "<td colspan='2' class=row1>" + requestName[p].balance + "</td>";
                     }
                 }
                 tbl += "</tr>";

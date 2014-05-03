@@ -20,6 +20,7 @@
         }
         function Submit() {
             amount = $('#amount').val();
+            amount=Math.round(amount);
             comment = $('#comment').val();
             Category_id = window.localStorage.getItem("param"); 
             PurchesDate = $('#PurchesDate').val();
@@ -29,7 +30,7 @@
             Load();
             $.ajax({
                 type: "GET",
-                url: "http://proj.ruppin.ac.il/igroup93/test2/AddPurches.aspx",
+                url: "http://proj.ruppin.ac.il/igroup93/test2/BL/AddPurches.aspx",
                // url: "AddPurches.aspx",
                 data:
                      { 'amount': amount, 'comment': comment, 'Category_id': Category_id, 'PurchesDate': PurchesDate, 'paymentMethod': paymentMethod, 'UserId': UserId },
@@ -86,7 +87,8 @@
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(2)">אוכל בחוץ</a></li>
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(3)">ריהוט</a></li>
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(6)">ביגוד והנעלה</a></li>
-                    <li><a href="#ExpencesDetailsPage" onclick="changePage(4)">דלק</a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(4)">דלק ותחבורה</a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(7)">קוסמטיקה</a></li>
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(5)">אחר</a></li>
                 </ul>
             </div>
@@ -119,7 +121,7 @@
             <div data-role="collapsible"  data-content-theme="d" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-inset="true">
                 <h2>תרבות פנאי ובילוי</h2>
                 <ul data-role="listview">
-                    <li><a href="#ExpencesDetailsPage" onclick="changePage(81)">חופשות בארץ ובחול</a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(81)">חופשות ואטרקציות</a></li>
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(82)">מסעדות/פאבים</a></li>
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(83)">סרטים והצגות</a></li>
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(84)">קאנטרי/חד"כ/בריכה</a></li>
@@ -139,12 +141,21 @@
                 </ul>
             </div>
             <!-- /collapsible -->
+           <div data-role="collapsible" data-theme="b" data-content-theme="b" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-inset="true">
+                <h2>הכנסות</h2>
+                       <ul data-role="listview">
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(200)">הכנסה </a></li>
+                </ul>
+               
+            </div>
+            <!-- /collapsible -->
         </div>
 
         <!-- /content -->
 
-        <div data-role="footer" style="text-align: left" data-position="fixed">
-            <a href="#" data-role="button" data-icon="back"  onclick="back()">חזרה</a>
+        <div data-role="footer" data-position="fixed">
+            <a  href="#" data-role="button" data-icon="back"  onclick="back()">חזרה</a>
+           
         </div>
     </div>
 

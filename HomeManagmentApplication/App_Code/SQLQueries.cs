@@ -27,8 +27,11 @@ public class SQLQueries
     }
     public static String UserExpencesByMonth(string id)
     {
-        string query = "SELECT RIGHT(CONVERT(VARCHAR(10), DATEADD(mm, DATEDIFF(mm, 0, PurchesDate),0) , 105), 7) AS MonthAndYear, sum(amount) AS amountSum FROM [dbo].[HM_Expenses] where  userId=" + id + " GROUP BY DATEADD(mm, DATEDIFF(mm, 0,PurchesDate),0) ORDER BY 1 DESC";
-        return query;
+        return "SELECT RIGHT(CONVERT(VARCHAR(10), DATEADD(mm, DATEDIFF(mm, 0, PurchesDate),0) , 105), 7) AS MonthAndYear, sum(amount) AS amountSum FROM [dbo].[HM_Expenses] where  userId=" + id + " and ExpenseCategory_id<>200   GROUP BY DATEADD(mm, DATEDIFF(mm, 0,PurchesDate),0) ORDER BY 1 DESC";  
+    }
+    public static String UserIncomesByMonth(string id)
+    {
+        return "SELECT RIGHT(CONVERT(VARCHAR(10), DATEADD(mm, DATEDIFF(mm, 0, PurchesDate),0) , 105), 7) AS MonthAndYear, sum(amount) AS amountSum FROM [dbo].[HM_Expenses] where  userId=" + id + " and ExpenseCategory_id=200   GROUP BY DATEADD(mm, DATEDIFF(mm, 0,PurchesDate),0) ORDER BY 1 DESC";
     }
     public static String ProductCategories()
     {
