@@ -32,7 +32,6 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (res) {
-                        alert("ddd");
                         document.getElementById("UserName").innerHTML = res[0].id + "  ברוך הבא";
                     }, // success
                     error: function (error) {
@@ -49,8 +48,9 @@
                         //location.reload();
                     } //error
                 });       // ajax
-
-
+            }
+            else {
+                window.location.replace('#popupLogin', 'flip', true, true);
             }
         }
        
