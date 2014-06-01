@@ -63,10 +63,38 @@
         function RedirectToPage() {
             window.location.replace('ExpencesListByUser.html', 'flip', true, true);
         }
+
+        function LoadData() {
+            UserId = window.localStorage.getItem("UserId");
+            $.ajax({
+                type: "GET",
+                //url: "http://proj.ruppin.ac.il/igroup93/test2/BL/GetExpencesByCategory.aspx",
+                 url: "BL/GetExpencesByCategory.aspx",
+                data:
+                     { 'UserId': UserId },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (res) {
+                    FillExpencesByCategory(res["UserExpencesByCategory"]);
+                    alert("בוצע");
+                }, // success
+                error: function (error) {
+                    alert("error-AddPurches.aspx");
+                    UnLoad();
+                } //error
+            });   // ajax
+        }
+        function FillExpencesByCategory(ExpencesList) {
+            for (var i = 0; i < ExpencesList.length; i++) {
+                alert(ExpencesList[i].total + "," + ExpencesList[i].headcategory);
+
+            }
+
+        }
     </script>
 
 </head>
-<body>
+<body onload="LoadData()">
     <!-------------------------------------------------- /ExpencesList ------------------------------------------------------------>
     <div data-role="page" data-theme="e" id="ExpencesList">
 
@@ -80,10 +108,10 @@
 
         <div data-role="content" id="contentId" data-theme="e" style="text-align: center;">
 
-            <div data-role="collapsible"  data-content-theme="d" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-inset="true">
-                <h2>הוצאות משתנות</h2>
+            <div data-role="collapsible"   data-content-theme="d" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-inset="true">
+                <h2>הוצאות משתנות<div id="0" style="float:right; font-size:8pt">11122</div></h2>
                 <ul data-role="listview">
-                    <li><a href="#ExpencesDetailsPage" onclick="changePage(1)">מזון ומכולת</a></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(1)">מזון ומכולת</a><label>dddd</label></li>
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(2)">אוכל בחוץ</a></li>
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(3)">ריהוט</a></li>
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(6)">ביגוד והנעלה</a></li>

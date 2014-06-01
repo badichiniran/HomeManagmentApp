@@ -364,5 +364,29 @@ public class DBservices
         return dt;
     }
 
+    public DataTable GetExpencesByCategory(string id)
+    {
+        SqlConnection con;
+        DataTable dt = new DataTable();
+        try
+        {
+            con = connect();
+            SqlCommand cmd = new SqlCommand("HM_GetExpencesByCategory", con);        
+            SqlParameter p1 = new SqlParameter("Userid", id);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(p1);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+          
+            adapter.Fill(dt);
 
+
+        }
+        catch (Exception ex)
+        {
+            Logger.writeToLog(LoggerLevel.ERROR, "page :DBServicesAPP.cs, function: ActivityShow(), exeption message: " + ex.Message);
+            throw ex;
+        }
+        disconnect(con);
+        return dt;
+    }
 }

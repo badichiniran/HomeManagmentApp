@@ -95,8 +95,8 @@
             var password = $('#pssTXT').val();
             $.ajax({
                 type: "GET",
-                //url: "BL/loginPage.aspx",
-                url: "http://proj.ruppin.ac.il/igroup93/test2/BL/loginPage.aspx",
+                url: "BL/loginPage.aspx",
+                //url: "http://proj.ruppin.ac.il/igroup93/test2/BL/loginPage.aspx",
                 data: { 'id': id, 'password': password },
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -124,7 +124,7 @@
 
         function deleteLacalStorage() {
             localStorage.clear();
-            window.location.replace('mainPage.htm', 'flip', true, true);
+            window.location.replace('#popupLogin', 'flip', true, true);
             navigator.app.exitApp()
         }
 
@@ -305,7 +305,7 @@
         </div>
         <div data-role="content" data-theme="e" style="height: 50%">
             <div data-role="controlgroup">
-                <a href="#pageIndex" data-role="button" onclick="deleteLacalStorage()">כן</a> <a
+                <a href="#popupLogin" data-role="button" onclick="deleteLacalStorage()">כן</a> <a
                     href="#HomePage" data-rel="back" data-role="button">לא</a>
             </div>
         </div>
