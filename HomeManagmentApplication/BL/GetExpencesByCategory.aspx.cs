@@ -22,12 +22,14 @@ public partial class BL_GetExpencesByCategory : System.Web.UI.Page
 
         JavaScriptSerializer serializer = new JavaScriptSerializer();
 
-        DataTable UserExpencesByCategory;
-        string User_id = requestQuery["User_id"];
+        DataTable UserExpencesByCategoryHead;
+        DataTable UserExpencesByCategoryId;
+        string User_id = requestQuery["UserId"];
 
         try
         {
-            UserExpencesByCategory = dbs.GetExpencesByCategory(User_id);
+            UserExpencesByCategoryHead = dbs.GetExpencesByCategoryHead(User_id);
+            UserExpencesByCategoryId = dbs.GetExpencesByCategoryId(User_id);
 
 
         }
@@ -38,12 +40,13 @@ public partial class BL_GetExpencesByCategory : System.Web.UI.Page
             Logger.writeToLog(LoggerLevel.ERROR, "page :ActivityShow.aspx.cs, the exeption message is : " + ex.Message);
             throw;
         }
-        string jsonStringUserExpencesByCategory = serializer.Serialize(SerializeTable(UserExpencesByCategory));
+        string jsonStringUserExpencesByCategoryHead = serializer.Serialize(SerializeTable(UserExpencesByCategoryHead));
+        string jsonStringUserExpencesByCategoryId = serializer.Serialize(SerializeTable(UserExpencesByCategoryId));
+        string jsonString = "{\"UserExpencesByCategoryHead\":" + jsonStringUserExpencesByCategoryHead + ",\"UserExpencesByCategoryId\":" + jsonStringUserExpencesByCategoryId + "}";
 
-        string jsonString = "{\"UserExpencesByCategory\":" + jsonStringUserExpencesByCategory + "}";
-      
         Response.Write(jsonString);
         Response.End();
+
 
     }
 
