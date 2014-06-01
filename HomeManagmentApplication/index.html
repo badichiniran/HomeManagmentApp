@@ -25,7 +25,13 @@
 
         setTimeout("test()", 3500);
         function test() {
-            window.location.replace('mainPage.htm', 'flip', true, true);
+            var id = window.localStorage.getItem("UserId");
+            if (id != null) {
+                window.location.replace('mainPage.htm', 'flip', true, true);
+            }
+            else {
+                window.location.replace('mainPage.htm#popupLogin', 'flip', true, true);
+            }
         }
     </script>
     
