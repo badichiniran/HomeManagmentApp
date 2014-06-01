@@ -26,8 +26,8 @@
             if (id != null) {
                 $.ajax({
                     type: "GET",
-                    url: "BL/GetUserName.aspx",
-                    //url: "http://proj.ruppin.ac.il/igroup93/test2/BL/loginPage.aspx",
+                    //url: "BL/GetUserName.aspx",
+                    url: "http://proj.ruppin.ac.il/igroup93/test2/BL/loginPage.aspx",
                     data: { 'id': id },
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -35,22 +35,12 @@
                         document.getElementById("UserName").innerHTML = res[0].id + "  ברוך הבא";
                     }, // success
                     error: function (error) {
-                        UnLoad1();
-
-                        if (error.status == 1) {
-                            alert("שם משתמש או סיסמא לא נכונים. אנא נסה שוב");
-                        }
-                        else if (error.status == 3) {
-                            alert("נא הזן שם משתמש וסיסמא");
-                        }
-                        else alert(error)
-                        //alert("שם משתמש או סיסמא שהזנת שגויה");
-                        //location.reload();
+                      
                     } //error
                 });       // ajax
             }
             else {
-                //window.location.replace('#popupLogin', 'flip', true, true);
+                window.location.replace('#popupLogin', 'flip', true, true);
             }
         }
        

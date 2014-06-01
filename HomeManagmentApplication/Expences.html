@@ -76,7 +76,6 @@
                 dataType: "json",
                 success: function (res) {
                     FillExpencesByCategory(res["UserExpencesByCategory"]);
-                    alert("בוצע");
                 }, // success
                 error: function (error) {
                     alert("error-AddPurches.aspx");
@@ -86,7 +85,29 @@
         }
         function FillExpencesByCategory(ExpencesList) {
             for (var i = 0; i < ExpencesList.length; i++) {
-                alert(ExpencesList[i].total + "," + ExpencesList[i].headcategory);
+                switch (ExpencesList[i].headcategory) {
+                    case "0":
+                        document.getElementById("0").innerHTML = ExpencesList[i].total;
+                        break;
+                    case "20":
+                        document.getElementById("20").innerHTML = ExpencesList[i].total;
+                        break;
+                    case "40":
+                        document.getElementById("40").innerHTML = ExpencesList[i].total;
+                        break;
+                    case "60":
+                        document.getElementById("60").innerHTML = ExpencesList[i].total;
+                        break;
+                    case "80":
+                        document.getElementById("80").innerHTML = ExpencesList[i].total;
+                        break;
+                    case "100":
+                        document.getElementById("100").innerHTML = ExpencesList[i].total;
+                        break;
+                }
+               // if (ExpencesList[i].headcategory == 0)
+                    
+               // alert(ExpencesList[i].total + "," + ExpencesList[i].headcategory);
 
             }
 
@@ -109,9 +130,9 @@
         <div data-role="content" id="contentId" data-theme="e" style="text-align: center;">
 
             <div data-role="collapsible"   data-content-theme="d" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-inset="true">
-                <h2>הוצאות משתנות<div id="0" style="float:right; font-size:8pt">11122</div></h2>
+                <h2>הוצאות משתנות<div id="0" style="float:right; font-size:8pt"></div></h2>
                 <ul data-role="listview">
-                    <li><a href="#ExpencesDetailsPage" onclick="changePage(1)">מזון ומכולת</a><label>dddd</label></li>
+                    <li><a href="#ExpencesDetailsPage" onclick="changePage(1)">מזון ומכולת<div id="Div1" style="float:right; font-size:8pt">1234</div></a></li>
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(2)">אוכל בחוץ</a></li>
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(3)">ריהוט</a></li>
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(6)">ביגוד והנעלה</a></li>
@@ -122,7 +143,7 @@
             </div>
             <!-- /collapsible -->
             <div data-role="collapsible"  data-content-theme="d" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-inset="true">
-                <h2>רפואה ובריאות</h2>
+                <h2>רפואה ובריאות<div id="20" style="float:right; font-size:8pt"></div></h2>
                 <ul data-role="listview">
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(21)">ביקורי רופא</a></li>
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(22)">תרופות</a></li>
@@ -130,7 +151,7 @@
             </div>
             <!-- /collapsible -->
             <div data-role="collapsible" data-content-theme="d" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-inset="true">
-                <h2>מתנות</h2>
+                <h2>מתנות<div id="40" style="float:right; font-size:8pt"></div></h2>
                 <ul data-role="listview">
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(41)">אירועים</a></li>
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(42)">מתנות- אחר</a></li>
@@ -138,7 +159,7 @@
             </div>
             <!-- /collapsible -->
             <div data-role="collapsible" data-content-theme="d" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-inset="true">
-                <h2>בעלי חיים</h2>
+                <h2>בעלי חיים<div id="60" style="float:right; font-size:8pt"></div></h2>
                 <ul data-role="listview">
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(61)">אוכל </a></li>
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(62)">וטרינר</a></li>
@@ -147,7 +168,7 @@
             </div>
             <!-- /collapsible -->
             <div data-role="collapsible"  data-content-theme="d" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-inset="true">
-                <h2>תרבות פנאי ובילוי</h2>
+                <h2>תרבות פנאי ובילוי<div id="80" style="float:right; font-size:8pt"></div></h2>
                 <ul data-role="listview">
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(81)">חופשות ואטרקציות</a></li>
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(82)">מסעדות/פאבים</a></li>
@@ -157,7 +178,7 @@
             </div>
             <!-- /collapsible -->
             <div data-role="collapsible" data-content-theme="d" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-inset="true">
-                <h2>הוצאות קבועות</h2>
+                <h2>הוצאות קבועות<div id="100" style="float:right; font-size:8pt"></div></h2>
                 <ul data-role="listview">
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(101)">אינטרנט </a></li>
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(102)">ועד בית</a></li>
@@ -170,7 +191,7 @@
             </div>
             <!-- /collapsible -->
            <div data-role="collapsible" data-theme="b" data-content-theme="b" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-inset="true">
-                <h2>הכנסות</h2>
+                <h2>הכנסות<div id="200" style="float:right; font-size:8pt"></div></h2>
                        <ul data-role="listview">
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(200)">הכנסה-עבודה </a></li>
                     <li><a href="#ExpencesDetailsPage" onclick="changePage(201)">הכנסה- אחר </a></li>
