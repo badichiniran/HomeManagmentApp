@@ -49,7 +49,6 @@ public class DBservices
             }
         }
     }
-
     public DataTable getUserDedails(string UserName, string passwordString)
     {
         SqlConnection con;
@@ -70,7 +69,6 @@ public class DBservices
         disconnect(con);
         return dt;
     }
-
     public DataTable GetProductCategories()
     {
         SqlConnection con;
@@ -93,7 +91,6 @@ public class DBservices
         return dt;
 
     }
-
     public DataTable getProducts()
     {
         SqlConnection con;
@@ -116,7 +113,6 @@ public class DBservices
         return dt;
 
     }
-
     public void insertNewProductToList(Product p)
     {
         SqlConnection con;
@@ -139,7 +135,6 @@ public class DBservices
 
 
     }
-
     public void insertProductToList(Product p)
     {
         SqlConnection con;
@@ -162,8 +157,6 @@ public class DBservices
 
 
     }
-
-   
     public DataTable ShowShoppingList_byUserId(string UserId)
     {
         SqlConnection con;
@@ -240,7 +233,6 @@ public class DBservices
         }
         disconnect(con);
     }
-
     public DataTable CreateNewUser(List<string> UserDetailsList)
     {
         SqlConnection con;
@@ -277,7 +269,6 @@ public class DBservices
         disconnect(con);
         return dt;
     }
-
     public void AddPurches(string amount,string  comment,string  Category_id,string  PurchesDate,string  paymentMethod,string  UserId)
     {
         string InsertQuery = "INSERT INTO [HM_Expenses] ([amount],[comment],[ExpenseCategory_id],[PurchesDate],[paymentMethod],[UserId]) VALUES ('" + amount + "','" + comment + "','" + Category_id + "','" + PurchesDate + "','" + paymentMethod + "','" + UserId + "')";
@@ -295,7 +286,6 @@ public class DBservices
         }
         disconnect(con);
     }
-
     public DataTable UserExpences(string id)
     {
         SqlConnection con;
@@ -321,9 +311,7 @@ public class DBservices
         }
         disconnect(con);
         return dt;
-    }
-
-   
+    }  
     public DataTable UserExpencesByMonth(string id)
     {
         SqlConnection con;
@@ -350,4 +338,31 @@ public class DBservices
         disconnect(con);
         return dt;
     }
+    public DataTable getUserName(string id)
+    {
+        SqlConnection con;
+        DataTable dt = new DataTable();
+        try
+        {
+            con = connect();
+            SqlCommand cmd = new SqlCommand("HM_GetUserName", con);        
+            SqlParameter p1 = new SqlParameter("Userid", id);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(p1);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+          
+            adapter.Fill(dt);
+
+
+        }
+        catch (Exception ex)
+        {
+            Logger.writeToLog(LoggerLevel.ERROR, "page :DBServicesAPP.cs, function: ActivityShow(), exeption message: " + ex.Message);
+            throw ex;
+        }
+        disconnect(con);
+        return dt;
+    }
+
+
 }
